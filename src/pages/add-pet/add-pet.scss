@@ -1,0 +1,58 @@
+page-add-pet {
+
+    %clearfix:after {
+      display:block;
+      clear:both;
+      content:'';
+    }
+  
+    #locationButton{
+      background-color: #FFFFFF;
+    }
+    #locationIcon{
+      color: #616A6B;
+    }
+    #wrapper {
+      width: 100%;
+      height: 250px;
+    }
+    #mapCont {
+      width: 100%;
+      height: 100%;
+    }
+    #map_canvas {
+      width: 100%;
+      height: 100%;
+    }
+  
+    $grid-spacing: 3%;
+  
+    .row {
+      @extend %clearfix;
+   
+      & + & {
+          margin-top:$grid-spacing;
+      }
+    }
+  
+    .cameraButton{
+      margin-top: 15px;
+    }
+  
+    [class^="col-"] {
+      float:left;
+      margin-right:$grid-spacing;
+      -webkit-box-sizing:border-box; 
+      -moz-box-sizing:border-box; 
+      box-sizing:border-box;
+   
+      &:last-child {
+          margin-right:0%;
+      }
+    }
+  
+    .col-2   { width:(100% / 6) - ($grid-spacing * 10 / 12); }
+    .col-10  { width:(100% / 1.2) - ($grid-spacing * 2 / 12); }
+  
+  }
+  

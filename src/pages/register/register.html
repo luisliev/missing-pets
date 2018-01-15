@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      Create Account
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list>
+        <ion-item>
+    		<ion-label floating>Email address</ion-label>
+    		<ion-input type="email" #email></ion-input>
+ 		</ion-item>
+        <ion-item>
+    		<ion-label floating>Re-write email address</ion-label>
+    		<ion-input type="email" #reEmail></ion-input>
+ 		</ion-item>  
+ 		<ion-item>
+   			<ion-label floating>Password</ion-label>
+    		<ion-input type="password" #password></ion-input>
+  		</ion-item>
+ 		<ion-item>
+   			<ion-label floating>Re-write password</ion-label>
+    		<ion-input type="password" #rePassword></ion-input>
+  		</ion-item>        
+        <ion-item>
+            <ion-label (click)="jumpToTerms()">Terms and conditions</ion-label>
+        </ion-item>
+        <ion-item>
+   			<ion-label>I accept the terms and conditions</ion-label>
+    		<ion-checkbox [(ngModel)]="terms"></ion-checkbox>
+  		</ion-item>        
+	</ion-list>
+    
+	<div padding>
+  		<button ion-button block (click)="registerUser()">Register</button>
+	</div>
+
+</ion-content>

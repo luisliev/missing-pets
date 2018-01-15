@@ -1,0 +1,32 @@
+<ion-content padding class="container">
+    
+  <div id="appImage" class="logo">
+  
+  <img src="assets/imgs/logo_missingpets.png" class="logoimage"/>
+      
+  <ion-item class="appname">Missing Pet</ion-item>
+      
+  </div>
+
+  <div id="userNpassword">
+  
+      <ion-list>
+
+    <ion-item>
+      <ion-label floating class="email">Email</ion-label>
+      <ion-input type="text" #email></ion-input>
+   </ion-item>
+
+   <ion-item>
+       <ion-label floating class="password">Password</ion-label>
+      <ion-input type="password" #password></ion-input>
+    </ion-item>
+
+</ion-list>
+      
+  </div>
+  
+      <button ion-button full (click)="signInUser()" class="signButton">Sign In</button>
+      <button ion-button full (click)="register()" class="createButton">Create Account</button>
+
+</ion-content>

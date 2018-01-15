@@ -1,0 +1,81 @@
+{
+  "name": "missing-pets",
+  "version": "0.0.1",
+  "author": "Ionic Framework",
+  "homepage": "http://ionicframework.com/",
+  "private": true,
+  "scripts": {
+    "clean": "ionic-app-scripts clean",
+    "build": "ionic-app-scripts build",
+    "lint": "ionic-app-scripts lint",
+    "ionic:build": "ionic-app-scripts build",
+    "ionic:serve": "ionic-app-scripts serve"
+  },
+  "dependencies": {
+    "@angular/common": "5.0.3",
+    "@angular/compiler": "5.0.3",
+    "@angular/compiler-cli": "5.0.3",
+    "@angular/core": "5.0.3",
+    "@angular/forms": "5.0.3",
+    "@angular/http": "5.0.3",
+    "@angular/platform-browser": "5.0.3",
+    "@angular/platform-browser-dynamic": "5.0.3",
+    "@ionic-native/camera": "^4.5.2",
+    "@ionic-native/core": "4.4.0",
+    "@ionic-native/geolocation": "^4.5.2",
+    "@ionic-native/google-maps": "^4.5.2",
+    "@ionic-native/keyboard": "^4.5.2",
+    "@ionic-native/native-geocoder": "^4.5.2",
+    "@ionic-native/splash-screen": "^4.4.0",
+    "@ionic-native/status-bar": "4.4.0",
+    "@ionic/pro": "1.0.16",
+    "@ionic/storage": "2.1.3",
+    "angularfire2": "^5.0.0-rc.4",
+    "cordova-android": "6.3.0",
+    "cordova-plugin-camera": "^4.0.1",
+    "cordova-plugin-device": "^1.1.4",
+    "cordova-plugin-firebase": "^0.1.25",
+    "cordova-plugin-geolocation": "^4.0.1",
+    "cordova-plugin-googlemaps": "^2.1.1",
+    "cordova-plugin-ionic-webview": "^1.1.16",
+    "cordova-plugin-nativegeocoder": "^2.0.4",
+    "cordova-plugin-splashscreen": "^4.0.3",
+    "cordova-plugin-whitelist": "^1.3.1",
+    "firebase": "^4.8.2",
+    "ionic-angular": "3.9.2",
+    "ionic-plugin-keyboard": "^2.2.1",
+    "ionicons": "3.0.0",
+    "rxjs": "5.5.2",
+    "sw-toolbox": "3.6.0",
+    "zone.js": "0.8.18"
+  },
+  "devDependencies": {
+    "@ionic/app-scripts": "3.1.6",
+    "typescript": "2.4.2"
+  },
+  "description": "An Ionic project",
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-firebase": {},
+      "cordova-plugin-camera": {},
+      "cordova-plugin-geolocation": {
+        "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"
+      },
+      "cordova-plugin-googlemaps": {
+        "API_KEY_FOR_ANDROID": "AIzaSyAJgsBJWagvxS6GmWExwBm7LrdqurgqEOY",
+        "API_KEY_FOR_IOS": "AIzaSyBcDT9G4EtPC6DtYY7ZQtYtjljiFf77Ejo",
+        "LOCATION_WHEN_IN_USE_DESCRIPTION": "My custom when in use message",
+        "LOCATION_ALWAYS_USAGE_DESCRIPTION": "My custom always usage message"
+      },
+      "cordova-plugin-nativegeocoder": {},
+      "cordova-plugin-splashscreen": {},
+      "ionic-plugin-keyboard": {},
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-ionic-webview": {}
+    },
+    "platforms": [
+      "android"
+    ]
+  }
+}

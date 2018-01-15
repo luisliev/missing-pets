@@ -1,0 +1,79 @@
+
+<ion-header>
+
+  <ion-navbar color="primary">
+      <ion-buttons start>
+          <button ion-button menuToggle>
+              <ion-icon name="menu"></ion-icon>
+            </button>
+      </ion-buttons>
+
+    <ion-title>Add a Pet</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-label color="primary">Type of Pet</ion-label>
+    <ion-select [(ngModel)]="petType">
+      <ion-option *ngFor="let pet of petTypeList" [value]="pet.value">{{pet.text}}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="petType == 'other'">
+      <ion-label color="primary">Specify</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+
+  <ion-item>
+    <ion-label color="primary">Lost or Found?</ion-label>
+    <ion-select [(ngModel)]="lostFound">
+      <ion-option value="l">Lost</ion-option>
+      <ion-option value="f">Found</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <div class="row">
+    <div class="col-10">
+      <ion-item>
+        <ion-label color="primary" stacked>Add Photos</ion-label>
+        <ion-input readonly="true" type="text" placeholder="Upload a photo of the pet"></ion-input>
+      </ion-item>
+    </div>
+    <div class="col-2" text-align="center">
+      <button class="cameraButton" ion-button full color="primary" icon= "ion-camera" (click)="takePhoto()">
+        <ion-icon name="camera" id="cameraIcon"></ion-icon>
+      </button>
+    </div>
+  </div>
+
+  <ion-item>
+    <ion-label color="primary" stacked>Additional Info</ion-label>
+    <ion-input type="text" placeholder="Add info about the pet like physical characteristics"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label color="primary" stacked>Location</ion-label>
+    <ion-input readonly="true" type="text" placeholder="Touch the map to update the location" [(ngModel)]="value">{{value}}</ion-input>
+  </ion-item>
+
+  <style>
+      #wrapper { position: relative; }
+      #over_map { position: absolute; top: 10px; right: 10px; z-index: 99; }
+   </style>
+   
+   <div id="wrapper">
+      <div #mapContainer id="mapCont">
+          <div #map id="map_canvas" data-tap-disabled="true"></div>
+      </div>
+      <div id="over_map">
+          <button ion-fab mini id="locationButton" style="margin-bottom: 10px; margin-top: 10px;" (click)="myLocation()" top right>
+              <ion-icon name="locate" id="locationIcon"></ion-icon>
+            </button>
+      </div>
+   </div>
+
+  <button ion-button full (click)="uploadPet()" class="finishButton">Finish</button>
+
+</ion-content>
