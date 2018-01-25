@@ -17,6 +17,8 @@ declare var google: any;
   templateUrl: 'home.html'
 })
 export class HomePage {
+  
+  status: boolean = true;
     
   @ViewChild('map') mapRef: ElementRef;
   public map: GoogleMap;
@@ -34,9 +36,18 @@ export class HomePage {
       private googleMaps: GoogleMaps) {
 
   }
-  
+
+  ionViewDidLeave(){
+    this.map.setVisible(false);
+  }
+
+  ionViewDidEnter(){
+    this.map.setVisible(true);
+  }
+
   ionViewDidLoad(){
-      let loc: LatLng
+        this.status = true;
+        let loc: LatLng
         this.initMap();
 
         //once the map is ready move the camera into position
@@ -45,8 +56,13 @@ export class HomePage {
             this.getLocation().then( res => {
                 //Once the location is gotten we set the location on camera
                 loc = new LatLng(res.coords.latitude, res.coords.longitude);
-                this.addMarker(loc, this.map);
+                
                 this.animateCamera(loc);
+                this.map.addMarker({
+                    position: loc,
+                    animation: 'DROP',
+                    draggable: true,
+                    });
             }).catch( err => {
                 console.log(err);
                 alert("ERROR -> " + err);
@@ -101,5 +117,32 @@ export class HomePage {
             });
         }     
     }
+
+    myLocation(){
+        let loc: LatLng;
+        this.map.clear();
+    
+        //Method #3 for obtaining coordinates
+        this.getLocation().then(res =>{
+          //Once the location is gotten we set the location on camera
+          loc = new LatLng(res.coords.latitude, res.coords.longitude);
+    
+          this.animateCamera(loc);
+          this.map.addMarker({
+            position: loc,
+            animation: 'DROP',
+            draggable: true,
+          });
+          }).catch( err => {
+          console.log('---ERROR---');
+          console.error(err);
+          let toast = this.toastCtrl.create({
+            message: 'GEOLOCATION ERROR',
+            duration: 3000
+          });
+          toast.present();
+        });
+      }
+    
 }
         

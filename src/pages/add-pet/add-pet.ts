@@ -28,13 +28,19 @@ declare var plugin: any;
 export class AddPetPage {
 
   @ViewChild('map_canvas') element: ElementRef;
-
+  
   map: GoogleMap;
   address: string;
   markerlatlng: LatLng;
-  value: string = null;
+  locationValue: any;
   petTypeList: Array<{ value: string, text: string, checked: boolean }> = [];
   NewPet: Array<{ type: string, lostFound: string, picture: string, extraInfo: string, petLocation: any }> = [];
+
+  calle: any;
+  numeroCasa: any;
+  colonia: any;
+  ciudad: any;
+  codigoPostal: any;
 
   petType: any;
   lostOrFound: any;
@@ -60,12 +66,19 @@ export class AddPetPage {
     this.petTypeList.push({value: "snake", text: "Snake", checked: false});
     this.petTypeList.push({value: "horse", text: "Horse", checked: false});
     this.petTypeList.push({value: "other", text: "Other", checked: false});
-    
+
     this.plt.ready().then(() => {
       this.showMap();
     });
   }
 
+  ionViewDidLeave(){
+    this.map.setVisible(false);
+  }
+
+  ionViewDidEnter(){
+    this.map.setVisible(true);
+  }
 
   showMap(){
     let loc: LatLng;
@@ -73,62 +86,57 @@ export class AddPetPage {
     //wait for map to be ready
     this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
       console.log('Map is ready');
-      this.map.setMyLocationEnabled(false);
+      this.map.setMyLocationEnabled(false);    
       this.getLocation().then( res => {
         //Once the location is gotten we set the location on camera
         loc = new LatLng(res.coords.latitude, res.coords.longitude);
         this.animateCamera(loc);
+
+        this.getAddress(loc);
+
+        //We add a marker to the location where the user is
         this.map.addMarker({
           position: loc,
           animation: 'DROP',
           draggable: true,
-        })
+          zIndex: 99,
+          //should add here an info window that says "You are here"
+        }).then(marker => {     
+          //After the marker is added we animate the camera and 
+          //get the address where the marker is located
+          marker.on(plugin.google.maps.event.MARKER_DRAG_END).subscribe((markerData) => {
+            console.log("MARKER DATA -> " + markerData);
+            this.animateCamera(markerData[0]);
+            this.getAddress(markerData[0]);
+          });
+        });
         }).catch( err => {
         console.log('---ERROR---');
         console.error(err);
         alert("ERROR -> " + err);
         });
-        
-        try{
-          this.map.addEventListener(plugin.google.maps.event.MARKER_DRAG_END).subscribe((latLng: LatLng) => {
-            alert('DRAG END. DATA: ' + latLng);
-            let dragCoords: LatLng = new LatLng(latLng.lat, latLng.lng);
-            let toast = this.toastCtrl.create({
-              message: 'LatLng: ' + latLng,
-              duration: 3000
-            });
-            toast.present();
-            this.moveCamera(dragCoords);
-          });
-        }
-        catch(err){
-          alert('MARKER_DRAG_END ERROR -> ' + err);
-        }
 
-
-
-        //this.map.on(GoogleMapsEvent.MARKER_DRAG_END).subscribe((data) => {
-         // alert('DRAG END. DATA: ' + data);
-          //this.moveCamera(data.coords.LatLng);
-        //})
-
-        this.map.addEventListener(plugin.google.maps.event.MAP_CLICK).subscribe((latLng: LatLng) => {
-          alert('DATA: ' + latLng);
-          loc = latLng;
+        //If we clicked anywhere in the map, a marker will be added and
+        //we'll get the address of the location of the marker
+        this.map.on(plugin.google.maps.event.MAP_CLICK).subscribe((data) => {
+          console.log("DATA -> " + data);
+          this.map.clear();
           this.map.addMarker({
-            'position': loc,
-            'draggable': true,
-            'animation': 'BOUNCE'
+            position: data[0],
+            animation: 'DROP',
+            draggable: true
+          }).then(marker => {         
+            marker.on(plugin.google.maps.event.MARKER_DRAG_END).subscribe((markerData) => {
+              console.log("MARKER DATA -> " + markerData);
+              this.animateCamera(markerData[0]);
+              this.getAddress(data[0]);
+            });
           }).catch(error => {
-            alert('MARKER_ERROR -> ' + error);
             console.error(error);
-          });
-         /* this.map.clear().then(() => {
+          });    
 
-          }).catch(error => {
-            alert('MAP_CLICK ERROR -> ' + error);
-            console.error(error);
-          });  */        
+          this.getAddress(data[0]);
+
         });
     }).catch(error => {
       alert('MAP ERROR. ERROR -> ' + error);
@@ -140,7 +148,6 @@ export class AddPetPage {
     let loc: LatLng;
     this.map.clear();
 
-    //Method #3 for obtaining coordinates
     this.getLocation().then(res =>{
       //Once the location is gotten we set the location on camera
       loc = new LatLng(res.coords.latitude, res.coords.longitude);
@@ -151,6 +158,7 @@ export class AddPetPage {
         animation: 'DROP',
         draggable: true,
       });
+      this.getAddress(loc);
       }).catch( err => {
       console.log('---ERROR---');
       console.error(err);
@@ -160,13 +168,6 @@ export class AddPetPage {
       });
       toast.present();
     });
-
-    //let user know that he updated his position
-    let toast = this.toastCtrl.create({
-      message: 'Update my location',
-      duration: 3000
-    });
-    toast.present();
   }
 
   getLocation(){
@@ -176,19 +177,50 @@ export class AddPetPage {
   getAddress(LatLng){
     //given the latitude and longitude whe can get the address
     this.nativeGeocoder.reverseGeocode(LatLng.lat, LatLng.lng).then((result: NativeGeocoderReverseResult) => {
-    this.address = result.countryName + ', ' + result.locality + ', ' + result.subLocality + ', ' + result.postalCode + '.';
-    this.value = this.address;
+    
+    this.checkIfExists(result);
+    
+    this.locationValue = this.address;
     console.log(JSON.stringify(result));
+    alert(JSON.stringify(result));
     this.petAddress = result;
     }).catch((error: any) => {
       console.log('---GET ADDRESS ERROR---');
       console.error(error);
-      let toast = this.toastCtrl.create({
-        message: 'ADDRESS ERROR',
-        duration: 3000
-      });
-      toast.present();
+      alert('ADDRESS ERROR -> ' + error);
     });    
+  }
+
+  checkIfExists(address: any){
+    if(address != null){
+      if(address.thoroughfare == null){
+        this.calle = "";
+      }else{
+        this.calle = address.thoroughfare + ', ';
+      }
+      if(address.subThoroughfare == null){
+        this.numeroCasa = "";
+      }else{
+        this.numeroCasa = address.subThoroughfare + ', ';
+      }
+      if(address.subLocality == null){
+        this.colonia = "";
+      }else{
+        this.colonia = address.subLocality + ', ';
+      }
+      if(address.locality == null){
+        this.ciudad = "";
+      }else{
+        this.ciudad = address.locality + ', ';
+      }
+      if(address.postalCode == null){
+        this.codigoPostal = "No P.C.";
+      }else{
+        this.codigoPostal = address.postalCode;
+      }
+
+      this.address = this.calle + this.numeroCasa + this.colonia + this.ciudad + this.codigoPostal;
+    }
   }
 
   moveCamera(loc: LatLng){

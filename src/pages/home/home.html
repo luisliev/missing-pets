@@ -10,7 +10,20 @@
 </ion-header>
 
 <ion-content>
-     
-    <div #map id="map"></div>
+  <style>
+    #wrapper { position: relative; }
+    #over_map { position: absolute; top: 10px; right: 10px; z-index: 99; }
+ </style>
+ 
+ <div id="wrapper">
+    <div #mapContainer id="mapCont">
+        <div #map id="map" data-tap-disabled="true"></div>
+    </div>
+    <div id="over_map">
+        <button ion-fab mini id="locationButton" style="margin-bottom: 10px; margin-top: 10px;" (click)="myLocation()" top right>
+            <ion-icon name="locate" id="locationIcon"></ion-icon>
+          </button>
+    </div>
+ </div>
     
 </ion-content>
