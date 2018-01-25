@@ -86,8 +86,8 @@
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
     </plugin>
     <plugin name="cordova-plugin-googlemaps" spec="^2.1.1">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAJgsBJWagvxS6GmWExwBm7LrdqurgqEOY" />
-        <variable name="API_KEY_FOR_IOS" value="AIzaSyBcDT9G4EtPC6DtYY7ZQtYtjljiFf77Ejo" />
+        <variable name="API_KEY_FOR_ANDROID" value="YOUR_ANDROID_API_KEY_IS_HEREY" />
+        <variable name="API_KEY_FOR_IOS" value="YOUR_IOS_API_KEY_IS_HERE" />
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="My custom when in use message" />
         <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="My custom always usage message" />
     </plugin>
